@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Validation from "./LoginValidation";
 
+
 function Login() {
   const [values, setvalues] = useState({
     email: "",
@@ -13,7 +14,7 @@ function Login() {
   const handleInput = (event) => {
     setvalues((prev) => ({
       ...prev,
-      [event.target.name]: [event.target.value],
+      [event.target.name]: event.target.value,
     }));
   };
 
