@@ -33,6 +33,26 @@ app.post("/signup", (req, res) => {
   });
 });
 
+app.post("/login", (req, res) => {
+  console.log("Received data:", req.body);
+  const sql =
+    "SELECT * FROM login WHERE `email` = ? AND `password` = ?";
+  // const values = [req.body.name, req.body.email, req.body.password];
+
+  db.query(sql, [req.body.email, req.body.password], (err, data) => {
+    if (err) {
+      console.error("Database error:", err);
+      return res.status(500).json("Error inserting data");
+    } 
+    if (data.length > 0) {
+      return res.json('Success')
+    }
+    else{
+      return res.json("Failed");
+    }
+  });
+});
+
 app.listen(8081, ()=> {
     console.log("listening");
     

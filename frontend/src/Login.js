@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Validation from "./LoginValidation";
+import axios from "axios";
 
 
 function Login() {
@@ -10,6 +11,7 @@ function Login() {
   });
 
   const [errors, setErrors] = useState({});
+const navigate = useNavigate();
 
   const handleInput = (event) => {
     setvalues((prev) => ({
@@ -21,7 +23,23 @@ function Login() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    const validationErrors = Validation(values);
     setErrors(Validation(values));
+    if (
+      validationErrors.email === "" &&
+      validationErrors.password === ""
+    ) {
+      axios
+        .post("http://localhost:8081/login", values)
+        .then((res) => {
+          if (res.data === "Success") {
+              navigate("/home")            
+          } else {
+            alert("No Data Exists.")
+          }
+        })
+        .catch((err) => console.log(err));
+    }
   };
 
   return (
